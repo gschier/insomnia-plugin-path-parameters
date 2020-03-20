@@ -7,7 +7,7 @@ parameters with syntax `:myParam` with values defined in the Query tab by the sa
 
 ## Installation
 
-Install the `insomnia-plugin-graphql-get` plugin from Preferences > Plugins.
+Install the `insomnia-plugin-path-parameters` plugin from Preferences > Plugins.
 
 ## Usage
 
