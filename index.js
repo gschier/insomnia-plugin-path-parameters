@@ -15,7 +15,7 @@ module.exports.requestHooks = [
       }
 
       while (path.includes(toReplace)) {
-        path = path.replace(toReplace, value);
+        path = path.replace(toReplace, encodeURIComponent(value));
       }
       url.pathname = path;
       context.request.removeParameter(name);
