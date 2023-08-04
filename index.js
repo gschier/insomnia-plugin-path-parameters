@@ -6,7 +6,14 @@ module.exports.requestHooks = [
     for (const { name, value } of context.request.getParameters().sort((a, b) => b.name.length - a.name.length)) {
       if (!name) continue;
       
-      const toReplace = `:${name}`;
+      // First check the hostname for replacements
+      let toReplace = `--${name}`
+
+      if (url.hostname.includes(toReplace)) {
+        url.hostname = url.hostname.replace(toReplace, value);
+      }
+
+      toReplace = `:${name}`;
       let path = url.pathname;
 
       if (!path.includes(toReplace)) {
@@ -15,9 +22,10 @@ module.exports.requestHooks = [
       }
 
       while (path.includes(toReplace)) {
-        path = path.replace(toReplace, encodeURIComponent(value));
+        path = path.replace(toReplace, value);
       }
       url.pathname = path;
+
       context.request.removeParameter(name);
     }
 
