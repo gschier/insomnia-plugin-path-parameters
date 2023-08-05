@@ -7,16 +7,24 @@ module.exports.requestHooks = [
       if (!name) continue;
       
       // First check the hostname for replacements
-      let toReplace = `--${name}`
+      let toReplace = `--${name}`;
+      let hostnameReplaced = false;
 
       if (url.hostname.includes(toReplace)) {
         url.hostname = url.hostname.replace(toReplace, value);
+
+        hostnameReplaced = true;
       }
 
       toReplace = `:${name}`;
       let path = url.pathname;
 
       if (!path.includes(toReplace)) {
+        if (hostnameReplaced === true) {
+          // Not found in the pathname but was in the hostname
+          context.request.removeParameter(name);
+        }
+
         // Not found in URL, treat as regular parameter
         continue;
       }
